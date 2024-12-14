@@ -3,9 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Duck Code</title>
+    <title>Duck Code - Web Code Editor</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Welcome to Duck Code!</h1>
+    <div id="editor">
+        <div id="editor-header">
+            <h2>Duck Code Editor</h2>
+        </div>
+        <textarea id="code" placeholder="Write your code here..."></textarea>
+        <button onclick="runCode()">Run Code</button>
+        <pre id="output"></pre>
+    </div>
+    <script src="main.js"></script>
 </body>
 </html>
