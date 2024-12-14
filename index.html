@@ -4,17 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Duck Code - Web Code Editor</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Monaco Editor CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.40.0/min/vs/loader.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #1e1e1e;
+        }
+        #editor {
+            width: 80%;
+            height: 60vh;
+            background-color: #1e1e1e;
+            border: 2px solid #333;
+            border-radius: 8px;
+        }
+        #output {
+            width: 80%;
+            color: white;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        #languageSelector {
+            margin-bottom: 10px;
+            color: white;
+            background-color: #333;
+            padding: 5px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <div id="editor" style="height: 90vh;"></div>
-    <script src="main.js"></script>
-    <select id="languageSelector">
-    <option value="javascript">JavaScript</option>
-    <option value="html">HTML</option>
-    <option value="css">CSS</option>
-</select>
+    <div>
+        <select id="languageSelector">
+            <option value="javascript">JavaScript</option>
+            <option value="html">HTML</option>
+        </select>
+        <div id="editor"></div>
+        <button onclick="runCode()">Run Code</button>
+        <div id="output"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.40.0/min/vs/loader.js"></script>
+    <script>
+        require.config({ paths: { vs: 'https://cdn.jsdelivr.net/npm/monaco-editor@0.40.0/min/vs' } });
+
+        require(['vs/editor/editor.main'], function () {
+            // Create the Monaco Editor
+            const editor = monaco.editor.create(document.getElementById('editor'), {
+                value: "// Start coding...\n",
+                language: "javascript",  // Default language
+                theme: "vs-dark"  // Dark theme like VS Code
+            });
+
+            // Change language dynamically based on selection
+            document.getElementById('languageSelector').addEventListener('change', function () {
+                const language = this.value;
+                monaco.editor.setModelLanguage(editor.getModel(), language);
+            });
+
+            // Function to run the code
+            window.runCode = function () {
+                const code = editor.getValue();
+                const output = document.getElementById('output');
+                output.innerHTML = ''; // Clear previous output
+
+                try {
+                    // Check if the code is HTML or JavaScript
+                    if (code.trim().startsWith('<') && code.trim().endsWith('>')) {
+                        // If it's HTML, inject it into the output
+                        output.innerHTML = code;
+                    } else {
+                        // Otherwise, evaluate it as JavaScript
+                        const result = eval(code);
+                        output.textContent = `Output: ${result}`;
+                    }
+                } catch (error) {
+                    output.textContent = `Error: ${error.message}`;
+                }
+            }
+        });
+    </script>
 </body>
 </html>
