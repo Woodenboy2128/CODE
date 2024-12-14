@@ -5,16 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Duck Code - Web Code Editor</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Monaco Editor CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.40.0/min/vs/loader.js"></script>
 </head>
 <body>
-    <div id="editor">
-        <div id="editor-header">
-            <h2>Duck Code Editor</h2>
-        </div>
-        <textarea id="code" placeholder="Write your code here..."></textarea>
-        <button onclick="runCode()">Run Code</button>
-        <pre id="output"></pre>
-    </div>
+    <div id="editor" style="height: 90vh;"></div>
     <script src="main.js"></script>
 </body>
 </html>
